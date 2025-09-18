@@ -35,10 +35,12 @@ export function Header() {
 
   return (
     <header className="flex flex-col items-center justify-center gap-6">
-      <h1 className="text-6xl font-bold">{texts[index]}</h1>
+      <h1 className="break-keep text-center text-6xl font-bold">
+        {texts[index]}
+      </h1>
 
       {isTransitionEnd && (
-        <p className="whitespace-pre-line text-center text-lg">
+        <p className="whitespace-pre-line break-keep text-center text-lg">
           미래가 궁금한 고민, 상황이나 인간관계가 있나요? 마법의 타로가
           도와드릴게요.
         </p>
