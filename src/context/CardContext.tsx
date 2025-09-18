@@ -1,17 +1,19 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 import { TAROT_CARDS } from "~/constant";
+import { shuffleArray } from "~/utils";
 
 interface CardSelection {
   index: number;
-  card: string;
+  name: string;
+  flip: boolean;
 }
 
 interface CardContextType {
-  cards: string[];
+  cards: { name: string; flip: boolean }[];
   selection: CardSelection[];
   limit: number;
-  handleCardClick: (index: number, card: string) => void;
+  handleCardClick: (index: number, name: string, flip: boolean) => void;
   redoSelection: () => void;
   isSelected: (index: number) => boolean;
   setSelection: React.Dispatch<React.SetStateAction<CardSelection[]>>;
@@ -21,15 +23,22 @@ interface CardContextType {
 const CardContext = createContext<CardContextType | undefined>(undefined);
 
 export function CardProvider({ children }: { children: React.ReactNode }) {
-  const cards = TAROT_CARDS;
+  const cards = useMemo(
+    () =>
+      shuffleArray(TAROT_CARDS).map((card) => ({
+        name: card,
+        flip: Math.random() < 0.5,
+      })),
+    [],
+  );
   const [selection, setSelection] = useState<CardSelection[]>([]);
   const [limit, setLimit] = useState(1);
 
-  function handleCardClick(index: number, card: string) {
+  function handleCardClick(index: number, name: string, flip: boolean) {
     if (selection.length >= limit) {
       return;
     }
-    setSelection((prev) => [...prev, { index, card }]);
+    setSelection((prev) => [...prev, { index, name, flip }]);
   }
 
   function redoSelection() {

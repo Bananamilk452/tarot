@@ -64,7 +64,9 @@ export function CardList({ isVisible }: CardListProps) {
       {cards.map((card, i) => (
         <Card
           key={i}
-          card={card}
+          name={card.name}
+          side="back"
+          flip={card.flip}
           ref={(el: HTMLDivElement | null) => {
             cardsRefs.current[i] = el;
           }}
@@ -78,7 +80,7 @@ export function CardList({ isVisible }: CardListProps) {
           style={{
             transitionDelay: isTransitionEnd ? "" : `${delay * i}ms`,
           }}
-          onClick={() => handleCardClick(i, card)}
+          onClick={() => handleCardClick(i, card.name, card.flip)}
         />
       ))}
     </div>
