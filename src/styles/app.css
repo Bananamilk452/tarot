@@ -2,8 +2,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "SejongGeulggot";
+  src: url("/SejongGeulggot.woff2") format("woff2");
+}
+
 @theme {
-  --default-font-family: "Pretendard Variable";
+  --default-font-family: "SejongGeulggot";
 }
 
 @theme inline {

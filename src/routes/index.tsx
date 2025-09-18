@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { Calendar } from "~/components/Calendar";
+import { Header } from "~/components/Header";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -8,9 +8,8 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <div className="p-2">
-      <h3>Welcome Home!!!</h3>
-      <Calendar />
+    <div className="flex justify-center p-12">
+      <Header />
     </div>
   );
 }
