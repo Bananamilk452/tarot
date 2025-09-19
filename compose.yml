@@ -1,0 +1,11 @@
+services:
+  app:
+    container_name: tarot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "3000"
+    restart: unless-stopped
+    env_file:
+      - .env
