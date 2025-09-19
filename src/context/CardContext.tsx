@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-import { TAROT_CARDS } from "~/constant";
+import { Spread, TAROT_CARDS } from "~/constant";
 import { shuffleArray } from "~/utils";
 
 interface CardSelection {
@@ -15,6 +15,7 @@ interface CardContextType {
   limit: number;
   question: string;
   pageState: "initial" | "questioned" | "started";
+  spread: Spread;
   handleCardClick: (index: number, name: string, flip: boolean) => void;
   redoSelection: () => void;
   isSelected: (index: number) => boolean;
@@ -24,6 +25,7 @@ interface CardContextType {
   setPageState: React.Dispatch<
     React.SetStateAction<"initial" | "questioned" | "started">
   >;
+  setSpread: React.Dispatch<React.SetStateAction<Spread>>;
   reset: () => void;
 }
 
@@ -48,6 +50,7 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
   const [pageState, setPageState] = useState<
     "initial" | "questioned" | "started"
   >("initial");
+  const [spread, setSpread] = useState<Spread>(Spread.ONE_CARD);
 
   function handleCardClick(index: number, name: string, flip: boolean) {
     if (selection.length >= limit) {
@@ -70,6 +73,7 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
     setLimit(1);
     setQuestion("");
     setPageState("initial");
+    setSpread(Spread.ONE_CARD);
   }
 
   return (
@@ -80,6 +84,7 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
         limit,
         question,
         pageState,
+        spread,
         handleCardClick,
         redoSelection,
         isSelected,
@@ -87,6 +92,7 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
         setLimit,
         setQuestion,
         setPageState,
+        setSpread,
         reset,
       }}
     >
