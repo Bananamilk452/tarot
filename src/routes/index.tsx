@@ -46,7 +46,7 @@ function Home() {
 
   return (
     <div className="py-12">
-      <div className="mx-auto flex flex-col justify-center gap-6 p-12 pb-8 md:w-1/2 lg:w-3/5">
+      <div className="mx-auto flex flex-col justify-center gap-6 p-12 pb-8 md:w-4/5 lg:w-1/2">
         <Header />
 
         {/* 질문 넣는 곳 */}
