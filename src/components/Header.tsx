@@ -45,10 +45,11 @@ export function Header() {
             미래가 궁금한 고민, 상황이나 인간관계가 있나요? 마법의 타로가
             도와드릴게요.
           </p>
-          <div className="p text-sm text-gray-400">
-            이 서비스는 LLM을 이용하여 타로 카드를 해석합니다. 재미로만 이용해
+          <p className="px-6 text-center text-sm text-gray-400">
+            이 서비스는 LLM을 이용하여 타로 카드를 해석합니다. 질문의 내용이
+            분석을 위해 LLM 제공자(Google) 서버로 전송됩니다. 재미로만 이용해
             주세요.
-          </div>
+          </p>
         </>
       )}
     </header>
