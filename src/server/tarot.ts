@@ -8,7 +8,7 @@ import { tarotPromptTemplate } from "~/lib/langchain/prompt";
 const createTarotResponseSchema = z.object({
   question: z.string().min(5).max(2500),
   cards: z.array(z.string()),
-  spread: z.enum(TAROT_SPREADS),
+  spread: z.enum(Object.values(TAROT_SPREADS) as [string, ...string[]]),
 });
 
 export const createTarotResponse = createServerFn({
