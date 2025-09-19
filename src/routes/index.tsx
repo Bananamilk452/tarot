@@ -73,7 +73,7 @@ function Home() {
       </div>
 
       {/* 타로 카드 공개하는 곳 */}
-      {pageState === "started" && <OneCardDraw />}
+      {pageState === "started" && <TarotResult />}
 
       {/* 타로 카드 뽑는 곳 */}
       <div className="flex flex-col gap-10">
