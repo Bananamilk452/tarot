@@ -46,34 +46,35 @@ export function Card(props: CardProps) {
 export function CardWithTitle(
   props: CardProps & { withAnimation?: boolean; delay?: number },
 ) {
+  const { withAnimation, delay, name, flip, ...rest } = props;
   const [side, setSide] = useState<"front" | "back">(props.side);
 
   useEffect(() => {
-    if (props.withAnimation && props.delay) {
+    if (withAnimation && delay) {
       if (side === "back") {
         setTimeout(() => {
           setSide("front");
-        }, props.delay);
+        }, delay);
       }
       if (side === "front") {
         setTimeout(() => {
           setSide("back");
-        }, props.delay);
+        }, delay);
       }
     }
   }, []);
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <Card {...props} side={side} />
+      <Card {...rest} name={name} flip={flip} side={side} />
       <p
         className={cn(
           "break-keep text-center",
-          props.withAnimation ? "transition-opacity duration-300" : "",
-          props.side === side ? "opacity-0" : "opacity-100",
+          withAnimation ? "transition-opacity duration-300" : "",
+          side === props.side ? "opacity-0" : "opacity-100",
         )}
       >
-        {props.name} {props.flip ? "(역방향)" : ""}
+        {name} {flip ? "(역방향)" : ""}
       </p>
     </div>
   );
