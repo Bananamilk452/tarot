@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { CardList } from "~/components/CardList";
 import { Header } from "~/components/Header";
-import { OneCardDraw } from "~/components/tarot/OneCardDraw";
+import { TarotResult } from "~/components/tarot/TarotResult";
 import { Button } from "~/components/ui/button";
 import {
   Form,
