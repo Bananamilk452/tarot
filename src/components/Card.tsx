@@ -10,28 +10,29 @@ type CardProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 export function Card(props: CardProps) {
-  const cardName = props.name.replace(/ /g, "_");
+  const { name, side, flip, className, ref, ...rest } = props;
+  const cardName = name.replace(/ /g, "_");
 
   return (
     <div
-      {...props}
+      {...rest}
       className={cn(
         "w-30 relative aspect-[3/5] cursor-pointer overflow-hidden rounded-lg shadow transition-opacity duration-300",
-        props.className,
+        className,
       )}
-      ref={props.ref}
+      ref={ref}
     >
       <div
         className={cn(
           "transform-3d relative size-full pb-[100%] transition-transform duration-700",
-          props.side === "front" ? "" : "rotate-y-180",
+          side === "front" ? "" : "rotate-y-180",
         )}
       >
         <div className="backface-hidden rotate-y-180 absolute size-full bg-[url('/cards/back.jpg')] bg-cover" />
         <div
           className={cn(
             "backface-hidden transform-3d absolute size-full bg-cover",
-            props.flip ? "rotate-z-180" : "",
+            flip ? "rotate-z-180" : "",
           )}
           style={{
             backgroundImage: `url(/cards/${cardName}.jpg)`,
