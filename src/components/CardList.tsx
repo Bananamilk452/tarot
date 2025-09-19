@@ -15,7 +15,7 @@ export function CardList({ isVisible }: CardListProps) {
   const cardsRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const gap = 100;
-  const delay = 50;
+  const delay = 25;
 
   function handleLineWrapping() {
     cardsRefs.current.forEach((card) => {
