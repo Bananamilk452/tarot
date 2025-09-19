@@ -30,14 +30,19 @@ const formSchema = z.object({
 });
 
 function Home() {
-  const { limit, setLimit, selection, redoSelection } = useCards();
+  const {
+    limit,
+    setLimit,
+    selection,
+    pageState,
+    redoSelection,
+    question,
+    setQuestion,
+    setPageState,
+  } = useCards();
   setLimit(1);
 
   const [message, setMessage] = useState("");
-  const [question, setQuestion] = useState("");
-  const [pageState, setPageState] = useState<
-    "initial" | "questioned" | "started"
-  >("initial");
 
   function onStart() {
     setPageState("started");
@@ -46,7 +51,7 @@ function Home() {
 
   return (
     <div className="py-12">
-      <div className="mx-auto flex flex-col justify-center gap-6 p-12 pb-8 md:w-4/5 lg:w-1/2">
+      <div className="mx-auto flex flex-col justify-center gap-6 p-8 pb-8 sm:p-12 md:w-4/5 lg:w-1/2">
         <Header />
 
         {/* 질문 넣는 곳 */}
