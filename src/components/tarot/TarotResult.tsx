@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-import { TAROT_SPREADS } from "~/constant";
+import { Spread, TAROT_SPREADS } from "~/constant";
 import { useCards } from "~/context/CardContext";
 import { createTarotResponse } from "~/server/tarot";
 
@@ -9,12 +9,11 @@ import { CardWithTitle } from "../Card";
 import { TarotLoading } from "../TarotLoading";
 import { Button } from "../ui/button";
 
-export function OneCardDraw() {
+export function TarotResult() {
   const [showLoading, setShowLoading] = useState(false);
 
-  const { question, selection, reset } = useCards();
+  const { question, selection, reset, spread } = useCards();
   const delay = 1000;
-  const spread = TAROT_SPREADS[0];
 
   const {
     data,
@@ -36,7 +35,7 @@ export function OneCardDraw() {
       cards: selection.map(
         (card) => `${card.name} (${card.flip ? "역방향" : "정방향"})`,
       ),
-      spread,
+      spread: TAROT_SPREADS[spread],
     });
 
     setTimeout(() => {
@@ -44,15 +43,42 @@ export function OneCardDraw() {
     }, delay);
   }, []);
 
+  const renderCards = () => {
+    if (spread === Spread.ONE_CARD) {
+      return (
+        <CardWithTitle
+          name={selection[0].name}
+          side="back"
+          flip={selection[0].flip}
+          withAnimation
+          delay={delay}
+        />
+      );
+    }
+
+    if (spread === Spread.THREE_CARD) {
+      return (
+        <div className="flex flex-row flex-wrap items-center justify-center gap-6">
+          {selection.map((card, index) => (
+            <CardWithTitle
+              key={card.index}
+              name={card.name}
+              side="back"
+              flip={card.flip}
+              withAnimation
+              delay={delay + index * 500}
+            />
+          ))}
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <div className="flex flex-col flex-wrap items-center gap-6">
-      <CardWithTitle
-        name={selection[0].name}
-        side="back"
-        flip={selection[0].flip}
-        withAnimation
-        delay={delay}
-      />
+      {renderCards()}
 
       {showLoading && (
         <>
