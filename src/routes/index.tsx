@@ -39,6 +39,7 @@ function Home() {
     question,
     setQuestion,
     setPageState,
+    reset,
   } = useCards();
   setLimit(1);
 
@@ -84,6 +85,9 @@ function Home() {
         )}
         {pageState === "questioned" && (
           <div className="flex justify-center gap-4">
+            <Button variant="outline" onClick={reset}>
+              질문 다시하기
+            </Button>
             <Button
               variant="outline"
               disabled={selection.length === 0}
