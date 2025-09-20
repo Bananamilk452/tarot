@@ -41,6 +41,7 @@ export function TarotResult() {
     setTimeout(() => {
       setShowLoading(true);
     }, delay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderCards = () => {

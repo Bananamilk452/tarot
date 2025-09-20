@@ -42,6 +42,7 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
         name: card,
         flip: Math.random() < 0.5,
       })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [resetState],
   );
   const [selection, setSelection] = useState<CardSelection[]>([]);
