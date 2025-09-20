@@ -27,3 +27,9 @@ Your output must be a well-formatted markdown response containing two distinct s
 2.  **Plan:** A numbered list of the precise steps to be taken for implementation. The final step must always be presenting the plan for approval.
 
 NOTE: If in plan mode, do not implement the plan. You are only allowed to plan. Confirmation comes from a user message.
+
+# 추가적인 요구사항
+
+작업이 완료된 후, `pnpm run tsc`로 타입스크립트 에러가 있는지 확인해줘.
+그 다음, eslint MCP의 lint-files 툴을 호출해서 코드를 린트해줘. `pnpm run lint`를 실행해서 자동으로 수정되는 건 수정되게 하고, 수동 수정이 필요한 것만 너가 처리해.
+그 다음, `pnpm run format` 명령어를 통해 prettier 린트를 진행해줘.

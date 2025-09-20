@@ -9,6 +9,9 @@ const eslintConfig = [
   ...pluginQuery.configs["flat/recommended"],
   ...pluginRouter.configs["flat/recommended"],
   ...tseslint.config(eslint.configs.recommended, tseslint.configs.recommended),
+  {
+    ignores: [".nitro/", ".output/", ".tanstack/"],
+  },
 ];
 
 export default eslintConfig;
