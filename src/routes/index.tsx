@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { CardList } from "~/components/CardList";
 import { Header } from "~/components/Header";
+import { SpreadSelector } from "~/components/tarot/SpreadSelector";
 import { TarotResult } from "~/components/tarot/TarotResult";
 import { Button } from "~/components/ui/button";
 import {
@@ -16,6 +17,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Textarea } from "~/components/ui/textarea";
+import { TAROT_SPREADS } from "~/constant";
 import { useCards } from "~/context/CardContext";
 
 export const Route = createFileRoute("/")({
@@ -32,16 +34,14 @@ const formSchema = z.object({
 function Home() {
   const {
     limit,
-    setLimit,
     selection,
     pageState,
     redoSelection,
     question,
-    setQuestion,
+    spread,
     setPageState,
     reset,
   } = useCards();
-  setLimit(1);
 
   const [message, setMessage] = useState("");
 
@@ -52,14 +52,16 @@ function Home() {
 
   return (
     <div className="py-12">
-      <div className="mx-auto flex flex-col justify-center gap-6 p-8 pb-8 sm:p-12 md:w-4/5 lg:w-1/2">
+      <div className="mx-auto flex flex-col justify-center gap-6 p-8 !pb-8 sm:p-12 md:w-4/5 lg:w-1/2">
         <Header />
+      </div>
+      <div className="mx-auto flex flex-col justify-center gap-6 p-4 md:w-4/5 lg:w-3/5">
+        {pageState === "initial" && <SpreadSelector />}
 
         {/* 질문 넣는 곳 */}
         {pageState === "initial" && (
           <QuestionForm
             setMessage={setMessage}
-            setQuestion={setQuestion}
             onStart={() => setPageState("questioned")}
           />
         )}
@@ -67,6 +69,9 @@ function Home() {
         {/* 현재 질문 & 메세지 출력하는 곳 */}
         {pageState !== "initial" && (
           <div className="flex flex-col items-center gap-4">
+            <p className="break-keep text-center text-lg">
+              스프레드: {TAROT_SPREADS[spread]}
+            </p>
             <p className="break-keep text-center text-lg">질문: {question}</p>
             <p className="break-keep text-center text-lg">{message}</p>
           </div>
@@ -107,11 +112,12 @@ function Home() {
 
 interface QuestionFormProps {
   setMessage: (msg: string) => void;
-  setQuestion: (question: string) => void;
   onStart: () => void;
 }
 
-function QuestionForm({ setMessage, setQuestion, onStart }: QuestionFormProps) {
+function QuestionForm({ setMessage, onStart }: QuestionFormProps) {
+  const { setQuestion } = useCards();
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {

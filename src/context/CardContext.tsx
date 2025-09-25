@@ -20,12 +20,11 @@ interface CardContextType {
   redoSelection: () => void;
   isSelected: (index: number) => boolean;
   setSelection: React.Dispatch<React.SetStateAction<CardSelection[]>>;
-  setLimit: React.Dispatch<React.SetStateAction<number>>;
   setQuestion: React.Dispatch<React.SetStateAction<string>>;
   setPageState: React.Dispatch<
     React.SetStateAction<"initial" | "questioned" | "started">
   >;
-  setSpread: React.Dispatch<React.SetStateAction<Spread>>;
+  setSpread: (spread: Spread) => void;
   reset: () => void;
 }
 
@@ -71,10 +70,31 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
   function reset() {
     setResetState((prev) => prev + 1);
     setSelection([]);
-    setLimit(1);
     setQuestion("");
     setPageState("initial");
     setSpread(Spread.ONE_CARD);
+  }
+
+  function selectSpread(spread: Spread) {
+    setSpread(spread);
+    switch (spread) {
+      case Spread.ONE_CARD: {
+        setLimit(1);
+        break;
+      }
+      case Spread.THREE_CARD: {
+        setLimit(3);
+        break;
+      }
+      case Spread.CELTIC_CROSS: {
+        setLimit(10);
+        break;
+      }
+      default: {
+        setLimit(1);
+        break;
+      }
+    }
   }
 
   return (
@@ -90,10 +110,9 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
         redoSelection,
         isSelected,
         setSelection,
-        setLimit,
         setQuestion,
         setPageState,
-        setSpread,
+        setSpread: selectSpread,
         reset,
       }}
     >
