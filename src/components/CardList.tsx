@@ -14,13 +14,12 @@ export function CardList({ isVisible }: CardListProps) {
   const { cards, handleCardClick, isSelected } = useCards();
   const cardsRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const gap = 100;
   const delay = 25;
 
   function handleLineWrapping() {
     cardsRefs.current.forEach((card) => {
       if (card) {
-        card.style.marginLeft = `-${gap}px`;
+        card.removeAttribute("data-newline");
       }
     });
 
@@ -30,7 +29,7 @@ export function CardList({ isVisible }: CardListProps) {
       if (card) {
         const currentTop = card.offsetTop;
         if (currentTop !== lastTop) {
-          card.style.marginLeft = "0px";
+          card.setAttribute("data-newline", "true");
           lastTop = currentTop;
         }
       }
