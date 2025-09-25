@@ -84,7 +84,7 @@ function Home() {
           </div>
         )}
         {pageState === "questioned" && (
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-4 px-4">
             <Button variant="outline" onClick={reset}>
               질문 다시하기
             </Button>
