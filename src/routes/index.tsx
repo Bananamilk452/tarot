@@ -79,7 +79,7 @@ function Home() {
       {/* 타로 카드 뽑는 곳 */}
       <div className="flex flex-col gap-10">
         {pageState !== "started" && (
-          <div className="p-4">
+          <div className="px-2 sm:p-4">
             <CardList isVisible={pageState === "questioned"} />
           </div>
         )}
