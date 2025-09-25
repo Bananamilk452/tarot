@@ -72,11 +72,11 @@ export function CardList({ isVisible }: CardListProps) {
           }}
           className={cn(
             isVisible ? "opacity-100" : "opacity-0",
-            isTransitionEnd ? "transition-all hover:translate-y-6" : "",
-            isSelected(i)
-              ? "translate-y-10 transition-all hover:translate-y-10"
-              : "",
+            isTransitionEnd ? "transition-all sm:hover:translate-y-6" : "",
+            "data-selected:translate-y-10 data-selected:transition-all data-selected:hover:translate-y-10",
+            "data-selected:border-2 data-selected:border-amber-100 data-selected:shadow-[0_0_15px_#fde68a]",
           )}
+          data-selected={isSelected(i) || undefined}
           style={{
             transitionDelay: isTransitionEnd ? "" : `${delay * i}ms`,
           }}
