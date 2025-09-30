@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Textarea } from "~/components/ui/textarea";
-import { TAROT_SPREADS } from "~/constant";
+import { Spread, TAROT_SPREADS } from "~/constant";
 import { useCards } from "~/context/CardContext";
 
 export const Route = createFileRoute("/")({
@@ -116,7 +116,7 @@ interface QuestionFormProps {
 }
 
 function QuestionForm({ setMessage, onStart }: QuestionFormProps) {
-  const { setQuestion } = useCards();
+  const { spread, setQuestion } = useCards();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -127,7 +127,23 @@ function QuestionForm({ setMessage, onStart }: QuestionFormProps) {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setQuestion(values.question);
-    setMessage("원하는 카드를 1장 골라주세요.");
+
+    switch (spread) {
+      case Spread.ONE_CARD:
+        setMessage("원하는 카드를 1장 골라주세요.");
+        break;
+      case Spread.THREE_CARD:
+        setMessage(
+          "과거, 현재, 미래를 나타내는 카드를 순서대로 1장씩 골라주세요.",
+        );
+        break;
+      // case Spread.CELTIC_CROSS:
+      //   setMessage(
+      //     "현재 상황, 장애물, 잠재의식, 과거, 미래, 자신, 주변 환경, 희망과 두려움, 결과를 나타내는 카드를 각각 1장씩 골라주세요."
+      //   );
+      //   break;
+    }
+
     onStart();
   }
 
