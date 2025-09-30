@@ -18,7 +18,6 @@ export function Card(props: CardProps) {
       {...rest}
       className={cn(
         "sm:w-30 w-26 relative aspect-[3/5] cursor-pointer overflow-hidden rounded-lg shadow transition-opacity duration-300",
-        "data-newline:ml-0 not-data-newline:ml-[-90px] sm:not-data-newline:ml-[-100px]",
         className,
       )}
       ref={ref}
