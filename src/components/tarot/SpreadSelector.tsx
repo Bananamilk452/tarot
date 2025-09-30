@@ -12,7 +12,7 @@ export function SpreadSelector() {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-center text-lg">보고 싶은 스프레드를 선택하세요.</p>
-      <div className="flex flex-col gap-4 sm:grid sm:grid-cols-3">
+      <div className="flex flex-col gap-4 sm:grid sm:grid-cols-2">
         <SpreadCard
           spread={Spread.ONE_CARD}
           title="싱글 카드 드로우"
@@ -25,12 +25,12 @@ export function SpreadSelector() {
           description="과거, 현재, 미래를 나타내는 세 장의 카드를 뽑아 상황을 분석합니다."
           content="과거, 현재, 미래 또는 상황, 행동, 결과를 나타내는 세 장의 카드를 뽑아 상황을 분석합니다."
         />
-        <SpreadCard
+        {/* <SpreadCard
           spread={Spread.CELTIC_CROSS}
           title="켈틱 크로스 스프레드"
           description="열 장의 카드를 뽑아 복잡한 상황을 깊이 있게 분석합니다."
           content="열 장의 카드를 뽑아 복잡한 상황을 깊이 있게 분석합니다. 각 카드가 특정한 위치와 의미를 가지며, 전체적인 이야기를 형성합니다."
-        />
+        /> */}
       </div>
     </div>
   );
