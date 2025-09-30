@@ -74,6 +74,7 @@ export function CardList({ isVisible }: CardListProps) {
             isTransitionEnd ? "transition-all sm:hover:translate-y-6" : "",
             "data-selected:translate-y-10 data-selected:transition-all data-selected:hover:translate-y-10",
             "data-selected:border-2 data-selected:border-amber-100 data-selected:shadow-[0_0_15px_#fde68a]",
+            "data-newline:ml-0 not-data-newline:ml-[-90px] sm:not-data-newline:ml-[-100px]",
           )}
           data-selected={isSelected(i) || undefined}
           style={{
