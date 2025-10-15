@@ -16,15 +16,15 @@ interface CardContextType {
   question: string;
   pageState: "initial" | "questioned" | "started";
   spread: Spread;
+  includeReverse: boolean;
   handleCardClick: (index: number, name: string, flip: boolean) => void;
   redoSelection: () => void;
   isSelected: (index: number) => boolean;
-  setSelection: React.Dispatch<React.SetStateAction<CardSelection[]>>;
-  setQuestion: React.Dispatch<React.SetStateAction<string>>;
-  setPageState: React.Dispatch<
-    React.SetStateAction<"initial" | "questioned" | "started">
-  >;
+  setSelection: (selection: CardSelection[]) => void;
+  setQuestion: (question: string) => void;
+  setPageState: (pageState: "initial" | "questioned" | "started") => void;
   setSpread: (spread: Spread) => void;
+  setIncludeReverse: (include: boolean) => void;
   reset: () => void;
 }
 
@@ -33,16 +33,18 @@ const CardContext = createContext<CardContextType | undefined>(undefined);
 export function CardProvider({ children }: { children: React.ReactNode }) {
   // cards 초기화용 state
   const [resetState, setResetState] = useState(0);
-  // reset() 함수가 호출될 때마다 resetState를 변경하여 cards를 재생성
 
+  const [includeReverse, setIncludeReverse] = useState(true);
+
+  // reset() 함수가 호출될 때마다 resetState를 변경하여 cards를 재생성
   const cards = useMemo(
     () =>
       shuffleArray(TAROT_CARDS).map((card) => ({
         name: card,
-        flip: Math.random() < 0.5,
+        flip: includeReverse ? Math.random() < 0.5 : false,
       })),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [resetState],
+    [resetState, includeReverse],
   );
   const [selection, setSelection] = useState<CardSelection[]>([]);
   const [limit, setLimit] = useState(1);
@@ -106,6 +108,7 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
         question,
         pageState,
         spread,
+        includeReverse,
         handleCardClick,
         redoSelection,
         isSelected,
@@ -113,6 +116,7 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
         setQuestion,
         setPageState,
         setSpread: selectSpread,
+        setIncludeReverse,
         reset,
       }}
     >
