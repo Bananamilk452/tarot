@@ -9,6 +9,7 @@ import { Header } from "~/components/Header";
 import { SpreadSelector } from "~/components/tarot/SpreadSelector";
 import { TarotResult } from "~/components/tarot/TarotResult";
 import { Button } from "~/components/ui/button";
+import { Checkbox } from "~/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -39,7 +40,9 @@ function Home() {
     redoSelection,
     question,
     spread,
+    includeReverse,
     setPageState,
+    setIncludeReverse,
     reset,
   } = useCards();
 
@@ -56,14 +59,24 @@ function Home() {
         <Header />
       </div>
       <div className="mx-auto flex flex-col justify-center gap-6 p-4 md:w-4/5 lg:w-3/5">
-        {pageState === "initial" && <SpreadSelector />}
-
-        {/* 질문 넣는 곳 */}
         {pageState === "initial" && (
-          <QuestionForm
-            setMessage={setMessage}
-            onStart={() => setPageState("questioned")}
-          />
+          <>
+            <SpreadSelector />
+
+            <div className="flex items-center justify-center gap-2">
+              <label>역방향 카드 포함하기</label>
+              <Checkbox
+                onCheckedChange={setIncludeReverse}
+                checked={includeReverse}
+              />
+            </div>
+
+            {/* 질문 넣는 곳 */}
+            <QuestionForm
+              setMessage={setMessage}
+              onStart={() => setPageState("questioned")}
+            />
+          </>
         )}
 
         {/* 현재 질문 & 메세지 출력하는 곳 */}
