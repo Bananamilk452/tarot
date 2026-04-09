@@ -24,6 +24,7 @@ export const createTarotResponse = createServerFn({
       model: "gemini-3-flash-preview",
       temperature: 0.6,
       thinkingBudget: 0,
+      location: "global",
     });
 
     const promptValue = await tarotPromptTemplate.invoke({
