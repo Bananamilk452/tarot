@@ -57,6 +57,13 @@ export const Route = createRootRouteWithContext<{
       { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
       { rel: "icon", href: "/favicon.ico" },
     ],
+    scripts: [
+      {
+        defer: true,
+        "data-domain": "tarot.seoa.dev",
+        src: "https://plausible.seoa.dev/js/script.js",
+      },
+    ],
   }),
   errorComponent: (props) => {
     return (
