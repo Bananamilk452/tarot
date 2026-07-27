@@ -9,13 +9,13 @@ export function NotFound({ children }: { children?: React.ReactNode }) {
       <p className="flex flex-wrap items-center gap-2">
         <button
           onClick={() => window.history.back()}
-          className="rounded bg-emerald-500 px-2 py-1 text-sm font-black uppercase text-white"
+          className="rounded bg-emerald-500 px-2 py-1 text-sm font-black text-white uppercase"
         >
           Go back
         </button>
         <Link
           to="/"
-          className="rounded bg-cyan-600 px-2 py-1 text-sm font-black uppercase text-white"
+          className="rounded bg-cyan-600 px-2 py-1 text-sm font-black text-white uppercase"
         >
           Start Over
         </Link>

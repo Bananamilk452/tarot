@@ -1,11 +1,6 @@
 /// <reference types="vite/client" />
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import {
-  createRootRouteWithContext,
-  HeadContent,
-  Outlet,
-  Scripts,
-} from "@tanstack/react-router";
+import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import * as React from "react";
 
@@ -56,13 +51,6 @@ export const Route = createRootRouteWithContext<{
       },
       { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
       { rel: "icon", href: "/favicon.ico" },
-    ],
-    scripts: [
-      {
-        defer: true,
-        "data-domain": "tarot.seoa.dev",
-        src: "https://plausible.seoa.dev/js/script.js",
-      },
     ],
   }),
   errorComponent: (props) => {

@@ -10,13 +10,7 @@ import { SpreadSelector } from "~/components/tarot/SpreadSelector";
 import { TarotResult } from "~/components/tarot/TarotResult";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "~/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "~/components/ui/form";
 import { Textarea } from "~/components/ui/textarea";
 import { Spread, TAROT_SPREADS } from "~/constant";
 import { useCards } from "~/context/CardContext";
@@ -65,28 +59,20 @@ function Home() {
 
             <div className="flex items-center justify-center gap-2">
               <label>역방향 카드 포함하기</label>
-              <Checkbox
-                onCheckedChange={setIncludeReverse}
-                checked={includeReverse}
-              />
+              <Checkbox onCheckedChange={setIncludeReverse} checked={includeReverse} />
             </div>
 
             {/* 질문 넣는 곳 */}
-            <QuestionForm
-              setMessage={setMessage}
-              onStart={() => setPageState("questioned")}
-            />
+            <QuestionForm setMessage={setMessage} onStart={() => setPageState("questioned")} />
           </>
         )}
 
         {/* 현재 질문 & 메세지 출력하는 곳 */}
         {pageState !== "initial" && (
           <div className="flex flex-col items-center gap-4">
-            <p className="break-keep text-center text-lg">
-              스프레드: {TAROT_SPREADS[spread]}
-            </p>
-            <p className="break-keep text-center text-lg">질문: {question}</p>
-            <p className="break-keep text-center text-lg">{message}</p>
+            <p className="text-center text-lg break-keep">스프레드: {TAROT_SPREADS[spread]}</p>
+            <p className="text-center text-lg break-keep">질문: {question}</p>
+            <p className="text-center text-lg break-keep">{message}</p>
           </div>
         )}
       </div>
@@ -106,11 +92,7 @@ function Home() {
             <Button variant="outline" onClick={reset}>
               질문 다시하기
             </Button>
-            <Button
-              variant="outline"
-              disabled={selection.length === 0}
-              onClick={redoSelection}
-            >
+            <Button variant="outline" disabled={selection.length === 0} onClick={redoSelection}>
               한 장 선택 취소
             </Button>
             <Button disabled={selection.length !== limit} onClick={onStart}>
@@ -146,9 +128,7 @@ function QuestionForm({ setMessage, onStart }: QuestionFormProps) {
         setMessage("원하는 카드를 1장 골라주세요.");
         break;
       case Spread.THREE_CARD:
-        setMessage(
-          "과거, 현재, 미래를 나타내는 카드를 순서대로 1장씩 골라주세요.",
-        );
+        setMessage("과거, 현재, 미래를 나타내는 카드를 순서대로 1장씩 골라주세요.");
         break;
       // case Spread.CELTIC_CROSS:
       //   setMessage(

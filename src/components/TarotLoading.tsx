@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useInterval } from "usehooks-ts";
 
+import { Spinner } from "./Spinner";
 import { TAROT_PHRASES } from "~/constant";
 import { cn } from "~/utils";
-
-import { Spinner } from "./Spinner";
 
 export function TarotLoading({ className }: { className?: string }) {
   const [message, setMessage] = useState("당신의 운명을 읽고 있어요...");
@@ -17,16 +16,9 @@ export function TarotLoading({ className }: { className?: string }) {
   }, interval);
 
   return (
-    <div
-      className={cn(
-        "flex flex-col items-center justify-center gap-4",
-        className,
-      )}
-    >
+    <div className={cn("flex flex-col items-center justify-center gap-4", className)}>
       <Spinner className="size-6" />
-      <p className="whitespace-pre-wrap break-keep text-center italic">
-        {message}
-      </p>
+      <p className="text-center break-keep whitespace-pre-wrap italic">{message}</p>
     </div>
   );
 }
