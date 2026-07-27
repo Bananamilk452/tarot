@@ -40,7 +40,7 @@ export const createTarotResponse = createServerFn({
       providerOptions: {
         google: {
           thinkingConfig: {
-            thinkingLevel: "medium",
+            thinkingLevel: "low",
           },
         },
       },

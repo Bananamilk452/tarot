@@ -1,4 +1,5 @@
 import { basePrompt } from "./base-prompt";
+import { celticCrossPrompt } from "./celtic-cross-prompt";
 import { oneCardPrompt } from "./one-card-prompt";
 import { threeCardPrompt } from "./three-card-prompt";
 
@@ -13,6 +14,8 @@ export function getTarotSystemPrompt(spread: string) {
       return `${basePrompt}\n\n${oneCardPrompt}`;
     case "쓰리 카드 스프레드":
       return `${basePrompt}\n\n${threeCardPrompt}`;
+    case "켈틱 크로스 스프레드":
+      return `${basePrompt}\n\n${celticCrossPrompt}`;
     default:
       throw new Error(`Unsupported tarot spread: ${spread}`);
   }

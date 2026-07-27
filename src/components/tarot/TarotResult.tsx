@@ -6,6 +6,7 @@ import { TarotLoading } from "../TarotLoading";
 import { Button } from "../ui/button";
 import { Spread, TAROT_SPREADS } from "~/constant";
 import { useTarotSession } from "~/features/tarot/TarotSessionContext";
+import { CELTIC_CROSS_POSITIONS } from "~/features/tarot/types";
 import { createTarotResponse } from "~/server/tarot";
 
 export function TarotResult() {
@@ -64,6 +65,35 @@ export function TarotResult() {
               delay={delay + index * 500}
             />
           ))}
+        </div>
+      );
+    }
+
+    if (spread === Spread.CELTIC_CROSS) {
+      return (
+        <div className="mx-12 grid grid-cols-2 items-center gap-x-2 gap-y-6 px-4 md:grid-cols-6 md:gap-x-3 md:gap-y-6">
+          {selection.map((card, index) => {
+            const position = CELTIC_CROSS_POSITIONS[index];
+
+            return (
+              <div
+                key={card.index}
+                className={`relative flex flex-col items-center gap-2 ${position.gridClass} ${index === 1 ? "md:z-10" : ""}`}
+              >
+                <p className="text-center text-sm break-keep">
+                  {index + 1}. {position.title}
+                </p>
+                <CardWithTitle
+                  name={card.name}
+                  side="back"
+                  flip={card.flip}
+                  withAnimation
+                  delay={delay + index * 500}
+                  className="w-18 sm:w-20"
+                />
+              </div>
+            );
+          })}
         </div>
       );
     }
