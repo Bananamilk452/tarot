@@ -21,7 +21,7 @@ export const createTarotResponse = createServerFn({
     const { question, cards, spread } = context.data;
 
     const model = new ChatVertexAI({
-      model: "gemini-3-flash-preview",
+      model: "gemini-3.6-flash",
       temperature: 0.6,
       thinkingBudget: 0,
       location: "global",
