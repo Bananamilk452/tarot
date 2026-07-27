@@ -17,21 +17,21 @@ export function Card(props: CardProps) {
     <div
       {...rest}
       className={cn(
-        "sm:w-30 w-26 relative aspect-[3/5] cursor-pointer overflow-hidden rounded-lg shadow transition-opacity duration-300",
+        "relative aspect-[3/5] w-26 cursor-pointer overflow-hidden rounded-lg shadow transition-opacity duration-300 sm:w-30",
         className,
       )}
       ref={ref}
     >
       <div
         className={cn(
-          "transform-3d relative size-full pb-[100%] transition-transform duration-700",
+          "relative size-full pb-[100%] transition-transform duration-700 transform-3d",
           side === "front" ? "" : "rotate-y-180",
         )}
       >
-        <div className="backface-hidden rotate-y-180 absolute size-full bg-[url('/cards/back.jpg')] bg-cover" />
+        <div className="absolute size-full rotate-y-180 bg-[url('/cards/back.jpg')] bg-cover backface-hidden" />
         <div
           className={cn(
-            "backface-hidden transform-3d absolute size-full bg-cover",
+            "absolute size-full bg-cover backface-hidden transform-3d",
             flip ? "rotate-z-180" : "",
           )}
           style={{
@@ -43,9 +43,7 @@ export function Card(props: CardProps) {
   );
 }
 
-export function CardWithTitle(
-  props: CardProps & { withAnimation?: boolean; delay?: number },
-) {
+export function CardWithTitle(props: CardProps & { withAnimation?: boolean; delay?: number }) {
   const { withAnimation, delay, name, flip, ...rest } = props;
   const [side, setSide] = useState<"front" | "back">(props.side);
 
@@ -62,7 +60,7 @@ export function CardWithTitle(
         }, delay);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react/exhaustive-deps
   }, []);
 
   return (
@@ -70,7 +68,7 @@ export function CardWithTitle(
       <Card {...rest} name={name} flip={flip} side={side} />
       <p
         className={cn(
-          "break-keep text-center",
+          "text-center break-keep",
           withAnimation ? "transition-opacity duration-300" : "",
           side === props.side ? "opacity-0" : "opacity-100",
         )}

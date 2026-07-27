@@ -1,13 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-import { Spread, TAROT_SPREADS } from "~/constant";
-import { useCards } from "~/context/CardContext";
-import { createTarotResponse } from "~/server/tarot";
-
 import { CardWithTitle } from "../Card";
 import { TarotLoading } from "../TarotLoading";
 import { Button } from "../ui/button";
+import { Spread, TAROT_SPREADS } from "~/constant";
+import { useCards } from "~/context/CardContext";
+import { createTarotResponse } from "~/server/tarot";
 
 export function TarotResult() {
   const [showLoading, setShowLoading] = useState(false);
@@ -20,11 +19,7 @@ export function TarotResult() {
     mutate: getTarotReading,
     status,
   } = useMutation({
-    mutationFn: async (data: {
-      question: string;
-      cards: string[];
-      spread: string;
-    }) => {
+    mutationFn: async (data: { question: string; cards: string[]; spread: string }) => {
       return await createTarotResponse({ data: data });
     },
   });
@@ -32,16 +27,14 @@ export function TarotResult() {
   useEffect(() => {
     getTarotReading({
       question,
-      cards: selection.map(
-        (card) => `${card.name} (${card.flip ? "역방향" : "정방향"})`,
-      ),
+      cards: selection.map((card) => `${card.name} (${card.flip ? "역방향" : "정방향"})`),
       spread: TAROT_SPREADS[spread],
     });
 
     setTimeout(() => {
       setShowLoading(true);
     }, delay);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react/exhaustive-deps
   }, []);
 
   const renderCards = () => {
@@ -94,25 +87,17 @@ export function TarotResult() {
             <>
               <div className="p-4 md:w-4/5 lg:w-1/2">
                 <h2 className="mb-1 text-lg font-semibold">카드의 의미</h2>
-                <p className="whitespace-pre-wrap break-keep">
-                  {data.cards_meaning}
-                </p>
+                <p className="break-keep whitespace-pre-wrap">{data.cards_meaning}</p>
 
                 <hr className="my-6 border-gray-600" />
 
-                <h2 className="mb-1 text-lg font-semibold">
-                  질문과 카드의 관련성
-                </h2>
-                <p className="whitespace-pre-wrap break-keep">
-                  {data.relevance}
-                </p>
+                <h2 className="mb-1 text-lg font-semibold">질문과 카드의 관련성</h2>
+                <p className="break-keep whitespace-pre-wrap">{data.relevance}</p>
 
                 <hr className="my-6 border-gray-600" />
 
                 <h2 className="mb-1 text-lg font-semibold">결론</h2>
-                <p className="whitespace-pre-wrap break-keep">
-                  {data.conclusion}
-                </p>
+                <p className="break-keep whitespace-pre-wrap">{data.conclusion}</p>
               </div>
               <Button onClick={reset}>다시 하기</Button>
             </>

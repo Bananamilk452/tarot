@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "react/exhaustive-deps": "error",
+    "react/rules-of-hooks": "error"
+  },
+  "ignorePatterns": [".nitro/", ".output/", ".tanstack/", "**/routeTree.gen.ts"],
+  "env": {
+    "builtin": true
+  }
+}

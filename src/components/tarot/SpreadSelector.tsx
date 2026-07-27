@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Spread } from "~/constant";
 import { useCards } from "~/context/CardContext";
 
@@ -53,7 +47,7 @@ function SpreadCard({
     <Card
       onClick={() => setSpread(spread)}
       data-active={currentSpread === spread || undefined}
-      className="data-active:border-amber-100 data-active:border-2 data-active:shadow-[0_0_15px_#fde68a] cursor-pointer transition-all"
+      className="cursor-pointer transition-all data-active:border-2 data-active:border-amber-100 data-active:shadow-[0_0_15px_#fde68a]"
     >
       <CardHeader>
         <CardTitle>{title}</CardTitle>
@@ -61,7 +55,7 @@ function SpreadCard({
       </CardHeader>
 
       <CardContent>
-        <p className="break-keep text-sm">{content}</p>
+        <p className="text-sm break-keep">{content}</p>
       </CardContent>
     </Card>
   );

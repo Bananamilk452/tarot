@@ -43,15 +43,13 @@ export function CardProvider({ children }: { children: React.ReactNode }) {
         name: card,
         flip: includeReverse ? Math.random() < 0.5 : false,
       })),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line react/exhaustive-deps
     [resetState, includeReverse],
   );
   const [selection, setSelection] = useState<CardSelection[]>([]);
   const [limit, setLimit] = useState(1);
   const [question, setQuestion] = useState("");
-  const [pageState, setPageState] = useState<
-    "initial" | "questioned" | "started"
-  >("initial");
+  const [pageState, setPageState] = useState<"initial" | "questioned" | "started">("initial");
   const [spread, setSpread] = useState<Spread>(Spread.ONE_CARD);
 
   function handleCardClick(index: number, name: string, flip: boolean) {
