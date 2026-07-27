@@ -4,7 +4,7 @@ import { generateText, Output } from "ai";
 import { z } from "zod";
 
 import { TAROT_SPREADS } from "~/constant";
-import { systemPrompt, tarotUserPrompt } from "~/lib/tarot/prompt";
+import { getTarotSystemPrompt, tarotUserPrompt } from "~/lib/tarot/prompt";
 
 const createTarotResponseSchema = z.object({
   question: z.string().min(5).max(2500),
@@ -30,10 +30,10 @@ export const createTarotResponse = createServerFn({
     const { output } = await generateText({
       model: google("gemini-3.6-flash"),
       temperature: 0.6,
-      system: systemPrompt,
+      system: getTarotSystemPrompt(spread),
       prompt: tarotUserPrompt({
         question,
-        cards: cards.join(", "),
+        cards: cards.map((card, index) => `${index + 1}. ${card}`).join("\n"),
         spread,
       }),
       output: Output.object({ schema: tarotReadingSchema }),
