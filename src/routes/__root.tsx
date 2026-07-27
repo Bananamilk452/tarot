@@ -7,7 +7,6 @@ import * as React from "react";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { NotFound } from "~/components/NotFound";
 import { ThemeProvider } from "~/components/ThemeProvider";
-import { CardProvider } from "~/context/CardContext";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
 
@@ -79,9 +78,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="bg-[#010620] antialiased">
-        <ThemeProvider defaultTheme="dark">
-          <CardProvider>{children}</CardProvider>
-        </ThemeProvider>
+        <ThemeProvider defaultTheme="dark">{children}</ThemeProvider>
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />

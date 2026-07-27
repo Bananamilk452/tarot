@@ -5,13 +5,13 @@ import { CardWithTitle } from "../Card";
 import { TarotLoading } from "../TarotLoading";
 import { Button } from "../ui/button";
 import { Spread, TAROT_SPREADS } from "~/constant";
-import { useCards } from "~/context/CardContext";
+import { useTarotSession } from "~/features/tarot/TarotSessionContext";
 import { createTarotResponse } from "~/server/tarot";
 
 export function TarotResult() {
   const [showLoading, setShowLoading] = useState(false);
 
-  const { question, selection, reset, spread } = useCards();
+  const { question, selection, reset, spread } = useTarotSession();
   const delay = 1000;
 
   const {
@@ -31,9 +31,10 @@ export function TarotResult() {
       spread: TAROT_SPREADS[spread],
     });
 
-    setTimeout(() => {
+    const timerId = setTimeout(() => {
       setShowLoading(true);
     }, delay);
+    return () => clearTimeout(timerId);
     // oxlint-disable-next-line react/exhaustive-deps
   }, []);
 

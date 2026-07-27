@@ -1,51 +1,26 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-import { CardList } from "~/components/CardList";
 import { Header } from "~/components/Header";
-import { SpreadSelector } from "~/components/tarot/SpreadSelector";
 import { TarotResult } from "~/components/tarot/TarotResult";
-import { Button } from "~/components/ui/button";
-import { Checkbox } from "~/components/ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "~/components/ui/form";
-import { Textarea } from "~/components/ui/textarea";
-import { Spread, TAROT_SPREADS } from "~/constant";
-import { useCards } from "~/context/CardContext";
+import { CardSelection } from "~/features/tarot/components/CardSelection";
+import { SelectionStatus } from "~/features/tarot/components/SelectionStatus";
+import { TarotSetup } from "~/features/tarot/components/TarotSetup";
+import { TarotSessionProvider, useTarotSession } from "~/features/tarot/TarotSessionContext";
 
 export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const formSchema = z.object({
-  question: z
-    .string()
-    .min(5, "질문은 최소 5자 이상이어야 합니다.")
-    .max(2500, "질문은 최대 2500자 이하여야 합니다."),
-});
-
 function Home() {
-  const {
-    limit,
-    selection,
-    pageState,
-    redoSelection,
-    question,
-    spread,
-    includeReverse,
-    setPageState,
-    setIncludeReverse,
-    reset,
-  } = useCards();
+  return (
+    <TarotSessionProvider>
+      <TarotPage />
+    </TarotSessionProvider>
+  );
+}
 
-  const [message, setMessage] = useState("");
-
-  function onStart() {
-    setPageState("started");
-    setMessage("선택한 카드를 펼쳐볼게요.");
-  }
+function TarotPage() {
+  const { step } = useTarotSession();
 
   return (
     <div className="py-12">
@@ -53,123 +28,11 @@ function Home() {
         <Header />
       </div>
       <div className="mx-auto flex flex-col justify-center gap-6 p-4 md:w-4/5 lg:w-3/5">
-        {pageState === "initial" && (
-          <>
-            <SpreadSelector />
-
-            <div className="flex items-center justify-center gap-2">
-              <label>역방향 카드 포함하기</label>
-              <Checkbox onCheckedChange={setIncludeReverse} checked={includeReverse} />
-            </div>
-
-            {/* 질문 넣는 곳 */}
-            <QuestionForm setMessage={setMessage} onStart={() => setPageState("questioned")} />
-          </>
-        )}
-
-        {/* 현재 질문 & 메세지 출력하는 곳 */}
-        {pageState !== "initial" && (
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-center text-lg break-keep">스프레드: {TAROT_SPREADS[spread]}</p>
-            <p className="text-center text-lg break-keep">질문: {question}</p>
-            <p className="text-center text-lg break-keep">{message}</p>
-          </div>
-        )}
+        {step === "setup" ? <TarotSetup /> : <SelectionStatus />}
       </div>
 
-      {/* 타로 카드 공개하는 곳 */}
-      {pageState === "started" && <TarotResult />}
-
-      {/* 타로 카드 뽑는 곳 */}
-      <div className="flex flex-col gap-10">
-        {pageState !== "started" && (
-          <div className="px-2 sm:p-4">
-            <CardList isVisible={pageState === "questioned"} />
-          </div>
-        )}
-        {pageState === "questioned" && (
-          <div className="flex flex-wrap justify-center gap-4 px-4">
-            <Button variant="outline" onClick={reset}>
-              질문 다시하기
-            </Button>
-            <Button variant="outline" disabled={selection.length === 0} onClick={redoSelection}>
-              한 장 선택 취소
-            </Button>
-            <Button disabled={selection.length !== limit} onClick={onStart}>
-              카드 선택 완료
-            </Button>
-          </div>
-        )}
-      </div>
+      {step === "selecting" ? <CardSelection /> : null}
+      {step === "reading" ? <TarotResult /> : null}
     </div>
-  );
-}
-
-interface QuestionFormProps {
-  setMessage: (msg: string) => void;
-  onStart: () => void;
-}
-
-function QuestionForm({ setMessage, onStart }: QuestionFormProps) {
-  const { spread, setQuestion } = useCards();
-
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      question: "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    setQuestion(values.question);
-
-    switch (spread) {
-      case Spread.ONE_CARD:
-        setMessage("원하는 카드를 1장 골라주세요.");
-        break;
-      case Spread.THREE_CARD:
-        setMessage("과거, 현재, 미래를 나타내는 카드를 순서대로 1장씩 골라주세요.");
-        break;
-      // case Spread.CELTIC_CROSS:
-      //   setMessage(
-      //     "현재 상황, 장애물, 잠재의식, 과거, 미래, 자신, 주변 환경, 희망과 두려움, 결과를 나타내는 카드를 각각 1장씩 골라주세요."
-      //   );
-      //   break;
-    }
-
-    onStart();
-  }
-
-  return (
-    <>
-      <Form {...form}>
-        <form
-          className="flex flex-col justify-center sm:px-6"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
-          <FormField
-            name="question"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Textarea
-                    className="h-36 resize-none"
-                    placeholder="미래가 궁금한 고민이나 상황, 인간관계 등을 상세하게 적어주세요"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-center">
-            <Button type="submit" className="mt-4">
-              타로 카드 뽑기
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </>
   );
 }

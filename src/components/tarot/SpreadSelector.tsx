@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { Spread } from "~/constant";
-import { useCards } from "~/context/CardContext";
+import { useTarotSession } from "~/features/tarot/TarotSessionContext";
 
 export function SpreadSelector() {
   return (
@@ -41,7 +41,7 @@ function SpreadCard({
   description: string;
   content: string;
 }) {
-  const { setSpread, spread: currentSpread } = useCards();
+  const { setSpread, spread: currentSpread } = useTarotSession();
 
   return (
     <Card

@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 
 import { Card } from "./Card";
-import { useCards } from "~/context/CardContext";
+import { useTarotSession } from "~/features/tarot/TarotSessionContext";
 import { cn } from "~/utils";
 
 interface CardListProps {
@@ -10,7 +10,7 @@ interface CardListProps {
 }
 
 export function CardList({ isVisible }: CardListProps) {
-  const { cards, handleCardClick, isSelected } = useCards();
+  const { cards, isSelected, selectCard } = useTarotSession();
   const cardsRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const delay = 25;
@@ -79,7 +79,7 @@ export function CardList({ isVisible }: CardListProps) {
           style={{
             transitionDelay: isTransitionEnd ? "" : `${delay * i}ms`,
           }}
-          onClick={() => handleCardClick(i, card.name, card.flip)}
+          onClick={() => selectCard(i, card)}
         />
       ))}
     </div>
