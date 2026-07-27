@@ -1,14 +1,21 @@
-import { ChatVertexAI } from "@langchain/google-vertexai";
+import { google } from "@ai-sdk/google";
 import { createServerFn } from "@tanstack/react-start";
+import { generateText, Output } from "ai";
 import { z } from "zod";
 
 import { TAROT_SPREADS } from "~/constant";
-import { tarotPromptTemplate } from "~/lib/langchain/prompt";
+import { systemPrompt, tarotUserPrompt } from "~/lib/tarot/prompt";
 
 const createTarotResponseSchema = z.object({
   question: z.string().min(5).max(2500),
   cards: z.array(z.string()),
   spread: z.enum(Object.values(TAROT_SPREADS) as [string, ...string[]]),
+});
+
+const tarotReadingSchema = z.object({
+  cards_meaning: z.string(),
+  relevance: z.string(),
+  conclusion: z.string(),
 });
 
 export const createTarotResponse = createServerFn({
@@ -20,28 +27,24 @@ export const createTarotResponse = createServerFn({
   .handler(async (context) => {
     const { question, cards, spread } = context.data;
 
-    const model = new ChatVertexAI({
-      model: "gemini-3.6-flash",
+    const { output } = await generateText({
+      model: google("gemini-3.6-flash"),
       temperature: 0.6,
-      thinkingBudget: 0,
-      location: "global",
+      system: systemPrompt,
+      prompt: tarotUserPrompt({
+        question,
+        cards: cards.join(", "),
+        spread,
+      }),
+      output: Output.object({ schema: tarotReadingSchema }),
+      providerOptions: {
+        google: {
+          thinkingConfig: {
+            thinkingLevel: "medium",
+          },
+        },
+      },
     });
 
-    const promptValue = await tarotPromptTemplate.invoke({
-      question,
-      cards: cards.join(", "),
-      spread,
-    });
-
-    let text = (await model.invoke(promptValue)).text;
-    text = text.replace("```json", "");
-    text = text.replace("```", "");
-
-    const response = JSON.parse(text) as {
-      cards_meaning: string;
-      relevance: string;
-      conclusion: string;
-    };
-
-    return response;
+    return output;
   });
