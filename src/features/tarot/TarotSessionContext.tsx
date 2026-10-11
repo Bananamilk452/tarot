@@ -9,7 +9,7 @@ import type { CardSelection, TarotCard, TarotStep } from "./types";
 interface TarotSessionContextValue {
   cards: TarotCard[];
   selection: CardSelection[];
-  question: string;
+  questions: string[];
   step: TarotStep;
   spread: Spread;
   includeReverse: boolean;
@@ -19,7 +19,7 @@ interface TarotSessionContextValue {
   isSelected: (index: number) => boolean;
   setSpread: (spread: Spread) => void;
   setIncludeReverse: (include: boolean) => void;
-  submitQuestion: (question: string) => void;
+  submitQuestions: (questions: string[]) => void;
   completeSelection: () => void;
   reset: () => void;
 }
@@ -37,7 +37,7 @@ export function TarotSessionProvider({ children }: { children: React.ReactNode }
   const [includeReverse, setIncludeReverse] = useState(true);
   const [cards, setCards] = useState(() => createShuffledCards(true));
   const [selection, setSelection] = useState<CardSelection[]>([]);
-  const [question, setQuestion] = useState("");
+  const [questions, setQuestions] = useState<string[]>([]);
   const [step, setStep] = useState<TarotStep>("setup");
   const [spread, setSpread] = useState<Spread>(Spread.ONE_CARD);
 
@@ -59,8 +59,8 @@ export function TarotSessionProvider({ children }: { children: React.ReactNode }
     return selection.some((selected) => selected.index === index);
   }
 
-  function submitQuestion(nextQuestion: string) {
-    setQuestion(nextQuestion);
+  function submitQuestions(nextQuestions: string[]) {
+    setQuestions(nextQuestions);
     setStep("selecting");
   }
 
@@ -78,7 +78,7 @@ export function TarotSessionProvider({ children }: { children: React.ReactNode }
   function reset() {
     setCards(createShuffledCards(includeReverse));
     setSelection([]);
-    setQuestion("");
+    setQuestions([]);
     setStep("setup");
     setSpread(Spread.ONE_CARD);
   }
@@ -88,7 +88,7 @@ export function TarotSessionProvider({ children }: { children: React.ReactNode }
       value={{
         cards,
         selection,
-        question,
+        questions,
         step,
         spread,
         includeReverse,
@@ -98,7 +98,7 @@ export function TarotSessionProvider({ children }: { children: React.ReactNode }
         isSelected,
         setSpread,
         setIncludeReverse: updateIncludeReverse,
-        submitQuestion,
+        submitQuestions,
         completeSelection,
         reset,
       }}

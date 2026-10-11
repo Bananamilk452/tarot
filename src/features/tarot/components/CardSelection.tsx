@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { useTarotSession } from "../TarotSessionContext";
 import { CardList } from "~/components/CardList";
 import { Button } from "~/components/ui/button";
@@ -5,10 +7,16 @@ import { Button } from "~/components/ui/button";
 export function CardSelection() {
   const { completeSelection, limit, reset, selection, undoSelection } = useTarotSession();
 
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   return (
     <div className="flex flex-col gap-10">
       <div className="px-2 sm:p-4">
-        <CardList isVisible />
+        <CardList isVisible={isVisible} />
       </div>
       <div className="flex flex-wrap justify-center gap-4 px-4">
         <Button variant="outline" onClick={reset}>

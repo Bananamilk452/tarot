@@ -7,7 +7,7 @@ import { TAROT_SPREADS } from "~/constant";
 import { getTarotSystemPrompt, tarotUserPrompt } from "~/lib/tarot/prompt";
 
 const createTarotResponseSchema = z.object({
-  question: z.string().min(5).max(2500),
+  questions: z.array(z.string().min(5).max(2500)).min(1),
   cards: z.array(z.string()),
   spread: z.enum(Object.values(TAROT_SPREADS) as [string, ...string[]]),
 });
@@ -25,14 +25,14 @@ export const createTarotResponse = createServerFn({
     return createTarotResponseSchema.parse(data);
   })
   .handler(async (context) => {
-    const { question, cards, spread } = context.data;
+    const { questions, cards, spread } = context.data;
 
     const { output } = await generateText({
-      model: google("gemini-3.6-flash"),
+      model: google("gemini-3.8-flash"),
       temperature: 0.6,
       system: getTarotSystemPrompt(spread),
       prompt: tarotUserPrompt({
-        question,
+        questions,
         cards: cards.map((card, index) => `${index + 1}. ${card}`).join("\n"),
         spread,
       }),

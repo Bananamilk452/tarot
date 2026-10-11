@@ -83,12 +83,14 @@ export enum Spread {
   ONE_CARD,
   THREE_CARD,
   CELTIC_CROSS,
+  EITHER_OR,
 }
 
 export const TAROT_SPREADS = {
   [Spread.ONE_CARD]: "원 카드 드로우",
   [Spread.THREE_CARD]: "쓰리 카드 스프레드",
   [Spread.CELTIC_CROSS]: "켈틱 크로스 스프레드",
+  [Spread.EITHER_OR]: "양자택일",
 };
 
 export const TAROT_PHRASES = [

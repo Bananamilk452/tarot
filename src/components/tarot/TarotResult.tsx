@@ -6,13 +6,13 @@ import { TarotLoading } from "../TarotLoading";
 import { Button } from "../ui/button";
 import { Spread, TAROT_SPREADS } from "~/constant";
 import { useTarotSession } from "~/features/tarot/TarotSessionContext";
-import { CELTIC_CROSS_POSITIONS } from "~/features/tarot/types";
+import { CELTIC_CROSS_POSITIONS, EITHER_OR_POSITIONS } from "~/features/tarot/types";
 import { createTarotResponse } from "~/server/tarot";
 
 export function TarotResult() {
   const [showLoading, setShowLoading] = useState(false);
 
-  const { question, selection, reset, spread } = useTarotSession();
+  const { questions, selection, reset, spread } = useTarotSession();
   const delay = 1000;
 
   const {
@@ -20,14 +20,14 @@ export function TarotResult() {
     mutate: getTarotReading,
     status,
   } = useMutation({
-    mutationFn: async (data: { question: string; cards: string[]; spread: string }) => {
+    mutationFn: async (data: { questions: string[]; cards: string[]; spread: string }) => {
       return await createTarotResponse({ data: data });
     },
   });
 
   useEffect(() => {
     getTarotReading({
-      question,
+      questions,
       cards: selection.map((card) => `${card.name} (${card.flip ? "역방향" : "정방향"})`),
       spread: TAROT_SPREADS[spread],
     });
@@ -64,6 +64,27 @@ export function TarotResult() {
               withAnimation
               delay={delay + index * 500}
             />
+          ))}
+        </div>
+      );
+    }
+
+    if (spread === Spread.EITHER_OR) {
+      return (
+        <div className="flex flex-row flex-wrap items-center justify-center gap-10">
+          {selection.map((card, index) => (
+            <div key={card.index} className="flex flex-col items-center gap-2">
+              <p className="text-center text-lg font-semibold break-keep">
+                {EITHER_OR_POSITIONS[index].title}
+              </p>
+              <CardWithTitle
+                name={card.name}
+                side="back"
+                flip={card.flip}
+                withAnimation
+                delay={delay + index * 500}
+              />
+            </div>
           ))}
         </div>
       );

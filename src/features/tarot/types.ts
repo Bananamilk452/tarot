@@ -15,13 +15,17 @@ export const SPREAD_CARD_LIMITS: Record<Spread, number> = {
   [Spread.ONE_CARD]: 1,
   [Spread.THREE_CARD]: 3,
   [Spread.CELTIC_CROSS]: 10,
+  [Spread.EITHER_OR]: 2,
 };
 
 export const SELECTION_INSTRUCTIONS: Record<Spread, string> = {
   [Spread.ONE_CARD]: "원하는 카드를 1장 골라주세요.",
   [Spread.THREE_CARD]: "과거, 현재, 미래를 나타내는 카드를 순서대로 1장씩 골라주세요.",
   [Spread.CELTIC_CROSS]: "각 위치를 나타내는 카드를 순서대로 1장씩 골라주세요.",
+  [Spread.EITHER_OR]: "두 가지 선택을 각각 나타내는 카드를 1장씩 골라주세요.",
 };
+
+export const EITHER_OR_POSITIONS = [{ title: "선택 A" }, { title: "선택 B" }] as const;
 
 export const CELTIC_CROSS_POSITIONS = [
   { title: "현재 상황", gridClass: "md:col-start-2 md:row-start-2" },
